@@ -14,8 +14,8 @@
 #' @param y_name dependent variable name
 #' @param data data.frame that contains both variables
 #'
-#' @examples linear_regression("age", "glucose.level", data)
-#' @examples results <- linear_regression("age", "glucose.level", data)
+#' @examples linear_regression("age", "glucose.level", data_glucose_simple)
+#' @examples results <- linear_regression("age", "glucose.level", data_glucose_simple)
 #'
 #' @export
 #'
@@ -115,7 +115,7 @@ print.summary.lm_result <- function(x, ...){
 #' @param y_name dependent variable name
 #' @param data data.frame that contains both variables
 #'
-#' @examples fit_linear_regression("age", "glucose.level", data)
+#' @examples fit_linear_regression("age", "glucose.level", data_glucose_simple)
 #'
 #' @export
 #'
@@ -180,7 +180,7 @@ fit_linear_regression <- function(x_name, y_name, data){
 #' @param result result from linear_regression
 #' @param data original data frame used in linear_regression
 #'
-#' @examples plot_linear_regression(results, data)
+#' @examples plot_linear_regression(linear_regression("age", "glucose.level", data_glucose_simple), data_glucose_simple)
 #'
 #' @import ggplot2
 #'
