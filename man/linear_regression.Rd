@@ -23,6 +23,7 @@ independent variable. This function will return a lm_result object containing al
 a series of subsequent functions rely on S3 method to print user-friendly results.
 }
 \examples{
+linear_regression("income", "happiness", happiness_data)
 linear_regression("age", "glucose.level", data_glucose_simple)
 results <- linear_regression("age", "glucose.level", data_glucose_simple)
 

@@ -14,6 +14,7 @@
 #' @param y_name dependent variable name
 #' @param data data.frame that contains both variables
 #'
+#' @examples linear_regression("income", "happiness", happiness_data)
 #' @examples linear_regression("age", "glucose.level", data_glucose_simple)
 #' @examples results <- linear_regression("age", "glucose.level", data_glucose_simple)
 #'
@@ -28,38 +29,6 @@ linear_regression.default <- function(x_name, y_name, data){
   result$call <- match.call()
   class(result) <- 'lm_result'
   result
-}
-
-#' @export
-print.lm_result <- function(x, ...){
-  # modify print method - print command used and coefficients to the console
-  cat("Call:\n")
-  print(x$call)
-  cat("\nCoefficients:\n")
-  cat("(Intercept)\t", x$name, "\n")
-  cat(x$intercept, "\t", x$slope)
-}
-
-#' @export
-summary.lm_result <- function(object, ...){
-  # modify summary method to contain statistical analysis result
-  coefficient <- cbind(Estimate = object$slope, StdErr = object$std_error,
-                       T.statistic = object$t_stat, P.value = object$pval)
-  significance <- list(name = object$name, coefficient = coefficient, R2 = object$R2,
-                       R2_adj = object$R2_adj, f_stat = object$f_stat, f_test_pval = object$f_test_pval)
-  class(significance) <- "summary.lm_result"
-  significance
-}
-
-#' @import stats
-#'
-#' @export
-print.summary.lm_result <- function(x, ...){
-  # modify print summary method to print statistical analysis result
-  row.names(x$coefficient) <- x$name
-  printCoefmat(x$coefficient, P.values = TRUE, has.Pvalue = TRUE, signif.stars = TRUE, signif.legend = T)
-  cat("\nR-squared:", x$R2, "\tAdjusted R-squared:", x$R2_adj)
-  cat("\nF-statistic:", x$f_stat, "\tp-value:", x$f_test_pval, "\n")
 }
 
 #' Fit simple linear regression model
@@ -81,6 +50,8 @@ print.summary.lm_result <- function(x, ...){
 #'
 #' @keywords internal
 #'
+# NOTE: This is an internal function. A help page was created to better understand this function.
+#       However, fit_linear_regression() cannot be called directly by user.
 fit_linear_regression <- function(x_name, y_name, data){
   # terminate the function if variable name(s) is not found
   if (!(x_name %in% colnames(data))){
@@ -142,6 +113,7 @@ fit_linear_regression <- function(x_name, y_name, data){
 #' @param result result from linear_regression
 #' @param data original data frame used in linear_regression
 #'
+#' @examples plot_linear_regression(linear_regression("income", "happiness", happiness_data), happiness_data)
 #' @examples plot_linear_regression(linear_regression("age", "glucose.level", data_glucose_simple), data_glucose_simple)
 #'
 #' @import ggplot2
@@ -163,6 +135,43 @@ plot_linear_regression <- function(result, data){
     xlab(result$name) +
     ylab(result$y_name) +
     ggtitle("Linear Regression of Data")
+}
+
+################ S3 methods for package ################
+# Note: three functions listed below are modified S3 functions to generate user-
+# friendly results. Hence, help page was not provided. Because all three functions
+# use print() and summary() to generate results.
+
+#' @export
+print.lm_result <- function(x, ...){
+  # modify print method - print command used and coefficients to the console
+  cat("Call:\n")
+  print(x$call)
+  cat("\nCoefficients:\n")
+  cat("(Intercept)\t", x$name, "\n")
+  cat(x$intercept, "\t", x$slope)
+}
+
+#' @export
+summary.lm_result <- function(object, ...){
+  # modify summary method to contain statistical analysis result
+  coefficient <- cbind(Estimate = object$slope, StdErr = object$std_error,
+                       T.statistic = object$t_stat, P.value = object$pval)
+  significance <- list(name = object$name, coefficient = coefficient, R2 = object$R2,
+                       R2_adj = object$R2_adj, f_stat = object$f_stat, f_test_pval = object$f_test_pval)
+  class(significance) <- "summary.lm_result"
+  significance
+}
+
+#' @import stats
+#'
+#' @export
+print.summary.lm_result <- function(x, ...){
+  # modify print summary method to print statistical analysis result
+  row.names(x$coefficient) <- x$name
+  printCoefmat(x$coefficient, P.values = TRUE, has.Pvalue = TRUE, signif.stars = TRUE, signif.legend = T)
+  cat("\nR-squared:", x$R2, "\tAdjusted R-squared:", x$R2_adj)
+  cat("\nF-statistic:", x$f_stat, "\tp-value:", x$f_test_pval, "\n")
 }
 
 

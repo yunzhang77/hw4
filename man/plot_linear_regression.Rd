@@ -18,6 +18,7 @@ Original data points will be labeled as black dots, whereas regression line will
 be red.
 }
 \examples{
+plot_linear_regression(linear_regression("income", "happiness", happiness_data), happiness_data)
 plot_linear_regression(linear_regression("age", "glucose.level", data_glucose_simple), data_glucose_simple)
 
 }
