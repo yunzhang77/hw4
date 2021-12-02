@@ -10,8 +10,7 @@ output: github_document
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/yunzhang77/hw4/workflows/R-CMD-check/badge.svg)](https://github.com/yunzhang77/hw4/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/yunzhang77/hw4/branch/main/graph/badge.svg)](https://app.codecov.io/gh/yunzhang77/hw4?branch=main)
+[![codecov](https://codecov.io/gh/yunzhang77/hw4/branch/master/graph/badge.svg?token=qhHpcXtRu7)](https://codecov.io/gh/yunzhang77/hw4)
 <!-- badges: end -->
 
 The goal of hw4 is to ...
