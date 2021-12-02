@@ -10,6 +10,7 @@ output: github_document
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/yunzhang77/hw4/workflows/R-CMD-check/badge.svg)](https://github.com/yunzhang77/hw4/actions)
+https://codecov.io/gh/yunzhang77/hw4/settings/badge 
 <!-- badges: end -->
 
 The goal of hw4 is to ...
