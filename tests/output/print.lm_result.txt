@@ -1,1 +1,0 @@
-Call:linear_regression.default(x_name = "age", y_name = "glucose.level",     data = data_glucose_simple)Coefficients:(Intercept)	 age 65.14157 	 0.385225
