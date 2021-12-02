@@ -7,8 +7,8 @@ Maintainer: Yun Zhang <yunzh@umich.edu>
 Description: This R package performs simple linear regression. 
     This package is for linear regression model with a single explanatory variable and 
     computes basic intercept and slope, performs statistical testing (T-test and F-test),
-    and plot linear regression line. THis package utlizes S3 generic functions to print
-    user-friendly analysis results. 
+    calculates R-squared and ajusted R-squared values, and plot linear regression line. 
+    This package utlizes S3 generic functions to print user-friendly analysis results. 
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
