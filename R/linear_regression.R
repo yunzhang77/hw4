@@ -19,7 +19,7 @@
 #'
 #' @export
 #'
-linear_regression <- function(x, ...) {UseMethod("linear_regression", x)}
+linear_regression <- function(x_name, y_name, data) {UseMethod("linear_regression")}
 
 #' @export
 linear_regression.default <- function(x_name, y_name, data){
@@ -30,18 +30,6 @@ linear_regression.default <- function(x_name, y_name, data){
   result
 }
 
-#' Print lm_result object
-#'
-#' This function uses S3 method to print user-friendly result for linear regression.
-#' This function will return command used to call linear_regression, intercept, and slope
-#' for the simple linear regression.
-#'
-#' @usage print(x)
-#' @usage print.lm_result(x)
-#'
-#' @param x lm_result object
-#' @param ... ignored
-#'
 #' @export
 #'
 print.lm_result <- function(x, ...){
@@ -53,16 +41,6 @@ print.lm_result <- function(x, ...){
   cat(x$intercept, "\t", x$slope)
 }
 
-#' Generate correct summary for lm_result object
-#'
-#' This function uses S3 method to generate correct summary for lm_object.
-#'
-#' @usage summary(x)
-#' @usage summary.lm_result(x)
-#'
-#' @param x lm_result object
-#' @param ... ignored
-#'
 #' @export
 #'
 summary.lm_result <- function(object, ...){
@@ -75,17 +53,6 @@ summary.lm_result <- function(object, ...){
   significance
 }
 
-#' Print summary for lm_result object
-#'
-#' This function uses S3 method to print summary result of lm_result object. This functions returns
-#' user-friends result contaning test statistics for the linear regression model, including standard
-#' error, t-statistics, P-value, R-squared, adjusted R-squared, F-statistics, and corresponding P-value.
-#'
-#' @usage summary(x)
-#'
-#' @param x summary.lm_result object
-#' @param ... ignored
-#'
 #' @import stats
 #'
 #' @export
