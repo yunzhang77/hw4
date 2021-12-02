@@ -1,4 +1,124 @@
+#' Calculate simple linear regression
+#'
+#' This function takes three parameters and fits simple linear regression model.
+#' The function asks for independent variable name (string), dependent variable name (string), and a data frame
+#' (data.frame) that contains both independent and dependent variables. If either variable name is not found in
+#' the data frame, this function will return an error message. Otherwise, it will compute slope and intercept,
+#' calculate standard error, R-squared, and adjusted R-squared values, and perform t-test and f-test on the
+#' independent variable. This function will return a lm_result object containing all results. This function and
+#' a series of subsequent functions rely on S3 method to print user-friendly results.
+#'
+#' @usage linear_regression(x_name, y_name, data)
+#'
+#' @param x_name independent variable name
+#' @param y_name dependent variable name
+#' @param data data.frame that contains both variables
+#'
+#' @examples linear_regression("age", "glucose.level", data)
+#' @examples results <- linear_regression("age", "glucose.level", data)
+#'
 #' @export
+#'
+linear_regression <- function(x, ...) {UseMethod("linear_regression", x)}
+
+#' @export
+linear_regression.default <- function(x_name, y_name, data){
+  # acquire result by calling fit_linear_regression and change it to new class object
+  result <- fit_linear_regression(x_name, y_name, data)
+  result$call <- match.call()
+  class(result) <- 'lm_result'
+  result
+}
+
+#' Print lm_result object
+#'
+#' This function uses S3 method to print user-friendly result for linear regression.
+#' This function will return command used to call linear_regression, intercept, and slope
+#' for the simple linear regression.
+#'
+#' @usage print(x)
+#' @usage print.lm_result(x)
+#'
+#' @param x lm_result object
+#' @param ... ignored
+#'
+#' @export
+#'
+print.lm_result <- function(x, ...){
+  # modify print method - print command used and coefficients to the console
+  cat("Call:\n")
+  print(x$call)
+  cat("\nCoefficients:\n")
+  cat("(Intercept)\t", x$name, "\n")
+  cat(x$intercept, "\t", x$slope)
+}
+
+#' Generate correct summary for lm_result object
+#'
+#' This function uses S3 method to generate correct summary for lm_object.
+#'
+#' @usage summary(x)
+#' @usage summary.lm_result(x)
+#'
+#' @param x lm_result object
+#' @param ... ignored
+#'
+#' @export
+#'
+summary.lm_result <- function(object, ...){
+  # modify summary method to contain statistical analysis result
+  coefficient <- cbind(Estimate = object$slope, StdErr = object$std_error,
+                       T.statistic = object$t_stat, P.value = object$pval)
+  significance <- list(name = object$name, coefficient = coefficient, R2 = object$R2,
+                       R2_adj = object$R2_adj, f_stat = object$f_stat, f_test_pval = object$f_test_pval)
+  class(significance) <- "summary.lm_result"
+  significance
+}
+
+#' Print summary for lm_result object
+#'
+#' This function uses S3 method to print summary result of lm_result object. This functions returns
+#' user-friends result contaning test statistics for the linear regression model, including standard
+#' error, t-statistics, P-value, R-squared, adjusted R-squared, F-statistics, and corresponding P-value.
+#'
+#' @usage summary(x)
+#'
+#' @param x summary.lm_result object
+#' @param ... ignored
+#'
+#' @import stats
+#'
+#' @export
+#'
+print.summary.lm_result <- function(x, ...){
+  # modify print summary method to print statistical analysis result
+  row.names(x$coefficient) <- x$name
+  printCoefmat(x$coefficient, P.values = TRUE, has.Pvalue = TRUE, signif.stars = TRUE, signif.legend = T)
+  cat("\nR-squared:", x$R2, "\tAdjusted R-squared:", x$R2_adj)
+  cat("\nF-statistic:", x$f_stat, "\tp-value:", x$f_test_pval, "\n")
+}
+
+#' Fit simple linear regression model
+#'
+#' This function takes three parameters and fits simple linear regression model.
+#' The function asks for independent variable name (string), dependent variable name (string), and a data frame
+#' (data.frame) that contains both independent and dependent variables. If either variable name is not found in
+#' the data frame, this function will return an error message. Otherwise, it will compute slope and intercept,
+#' calculate standard error, R-squared, and adjusted R-squared values, and perform t-test and f-test on the
+#' independent variable. This function will return a list containing all results.
+#'
+#' @note Please note that this function should not be called by user. It is an internal function used for fitting. User should call linear_regression() instead.
+#'
+#' @usage fit_linear_regression(x_name, y_name, data)
+#'
+#' @param x_name independent variable name
+#' @param y_name dependent variable name
+#' @param data data.frame that contains both variables
+#'
+#' @examples fit_linear_regression("age", "glucose.level", data)
+#'
+#' @export
+#'
 fit_linear_regression <- function(x_name, y_name, data){
   # terminate the function if variable name(s) is not found
   if (!(x_name %in% colnames(data))){
@@ -48,7 +168,24 @@ fit_linear_regression <- function(x_name, y_name, data){
   results
 }
 
+#' Plot linear regression line
+#'
+#' This function uses result acquired by calling linear_regression and original data
+#' to plot both original data points and linear regression line on the same plot.
+#' Original data points will be labeled as black dots, whereas regression line will
+#' be red.
+#'
+#' @usage plot_linear_regression(result, data)
+#'
+#' @param result result from linear_regression
+#' @param data original data frame used in linear_regression
+#'
+#' @examples plot_linear_regression(results, data)
+#'
+#' @import ggplot2
+#'
 #' @export
+#'
 plot_linear_regression <- function(result, data){
   # change variable names to x and y
   names(data)[names(data) == result$name] <- "x"
@@ -58,55 +195,14 @@ plot_linear_regression <- function(result, data){
   regression_points <- data.frame(cbind(data$x, result$slope * data$x + result$intercept))
 
   # plot linear regression line and original data points using ggplot2
-  ggplot2::ggplot(data = regression_points, aes(X1, X2)) +
-    ggplot2::geom_line(color = "red", size = 1.5) +
-    ggplot2::geom_point(data = data, aes(x, y)) +
-    ggplot2::xlab(result$name) +
-    ggplot2::ylab(result$y_name) +
-    ggplot2::ggtitle("Linear Regression of Data")
+  ggplot(data = regression_points, aes(X1, X2)) +
+    geom_line(color = "red", size = 1.5) +
+    geom_point(data = data, aes(x, y)) +
+    xlab(result$name) +
+    ylab(result$y_name) +
+    ggtitle("Linear Regression of Data")
 }
 
-#' @export
-linear_regression <- function(x, ...) {UseMethod("linear_regression", x)}
-
-#' @export
-linear_regression.default <- function(x_name, y_name, data){
-  # acquire result by calling fit_linear_regression and change it to new class object
-  result <- fit_linear_regression(x_name, y_name, data)
-  result$call <- match.call()
-  class(result) <- 'lm_result'
-  result
-}
-
-#' @export
-print.lm_result <- function(x){
-  # modify print method - print command used and coefficients to the console
-  cat("Call:\n")
-  print(x$call)
-  cat("\nCoefficients:\n")
-  cat("(Intercept)\t", x$name, "\n")
-  cat(x$intercept, "\t", x$slope)
-}
-
-#' @export
-summary.lm_result <- function(object){
-  # modify summary method to contain statistical analysis result
-  coefficient <- cbind(Estimate = object$slope, StdErr = object$std_error,
-                       T.statistic = object$t_stat, P.value = object$pval)
-  significance <- list(name = object$name, coefficient = coefficient, R2 = object$R2,
-                       R2_adj = object$R2_adj, f_stat = object$f_stat, f_test_pval = object$f_test_pval)
-  class(significance) <- "summary.lm_result"
-  significance
-}
-
-#' @export
-print.summary.lm_result <- function(x){
-  # modify print summary method to print statistical analysis result
-  row.names(x$coefficient) <- x$name
-  printCoefmat(x$coefficient, P.values = TRUE, has.Pvalue = TRUE, signif.stars = TRUE, signif.legend = T)
-  cat("\nR-squared:", x$R2, "\tAdjusted R-squared:", x$R2_adj)
-  cat("\nF-statistic:", x$f_stat, "\tp-value:", x$f_test_pval, "\n")
-}
 
 
 
