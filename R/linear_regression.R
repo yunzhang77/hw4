@@ -31,7 +31,6 @@ linear_regression.default <- function(x_name, y_name, data){
 }
 
 #' @export
-#'
 print.lm_result <- function(x, ...){
   # modify print method - print command used and coefficients to the console
   cat("Call:\n")
@@ -42,7 +41,6 @@ print.lm_result <- function(x, ...){
 }
 
 #' @export
-#'
 summary.lm_result <- function(object, ...){
   # modify summary method to contain statistical analysis result
   coefficient <- cbind(Estimate = object$slope, StdErr = object$std_error,
@@ -56,7 +54,6 @@ summary.lm_result <- function(object, ...){
 #' @import stats
 #'
 #' @export
-#'
 print.summary.lm_result <- function(x, ...){
   # modify print summary method to print statistical analysis result
   row.names(x$coefficient) <- x$name
@@ -82,9 +79,7 @@ print.summary.lm_result <- function(x, ...){
 #' @param y_name dependent variable name
 #' @param data data.frame that contains both variables
 #'
-#' @examples fit_linear_regression("age", "glucose.level", data_glucose_simple)
-#'
-#' @export
+#' @keywords internal
 #'
 fit_linear_regression <- function(x_name, y_name, data){
   # terminate the function if variable name(s) is not found

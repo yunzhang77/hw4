@@ -24,7 +24,4 @@ independent variable. This function will return a list containing all results.
 \note{
 Please note that this function should not be called by user. It is an internal function used for fitting. User should call linear_regression() instead.
 }
-\examples{
-fit_linear_regression("age", "glucose.level", data_glucose_simple)
-
-}
+\keyword{internal}
