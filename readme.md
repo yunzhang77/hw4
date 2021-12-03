@@ -6,14 +6,14 @@ output: github_document
 
 
 
-# hw4
+# hw4 - Simple Linear Regression Package
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/yunzhang77/hw4/workflows/R-CMD-check/badge.svg)](https://github.com/yunzhang77/hw4/actions)
 [![codecov](https://codecov.io/gh/yunzhang77/hw4/branch/master/graph/badge.svg?token=qhHpcXtRu7)](https://codecov.io/gh/yunzhang77/hw4)
 <!-- badges: end -->
 
-The goal of hw4 is to ...
+The goal of this R package is to perform simple linear regression analysis with a single explanatory variable. This package can calculate intercept and slope for the regression model, perform statistical testing on the regression (T-test and F-test), calculate R-squared and adjusted R-squares, and plot linear regression line. This package also utilize S3 generic method/function to provide user-friendly display of results. 
 
 ## Installation
 
@@ -24,34 +24,51 @@ You can install the development version of hw4 from [GitHub](https://github.com/
 devtools::install_github("yunzhang77/hw4")
 ```
 
+## Quick Guide
+
+After the package is installed on your local R environment, you can perform simple linear regression analysis by calling:
+  - `linear_regression()`: which will take three arguments - independent variable name, dependent variable name, and data frame
+  - `plot_linear_regression()`: which will take two arguments - result from `linear_regression()` and data frame
+  - `print()` can be called to print user-friendly linear regression result that contains regression coefficients
+  - `summary()` can be called to print statistics of the regression model 
+To better help user to learn this package, two example data sets are included in the package `data_glucose_simple` and `happiness_data`. `data_glucose_simple` can be used to test the functionality of the package and `happiness_data` is a relatively more challening data sets that could be used to validate package performance. See example below to see how to use this package. 
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to use this package solve simple linear regression problem:
 
 
 ```r
 library(hw4)
-## basic example code
+
+# perform regression analysis
+result <- linear_regression("income", "happiness", happiness_data)
+
+# print regression coefficient and statistics analysis on the regression model
+print(result)
+#> Call:
+#> linear_regression.default(x_name = "income", y_name = "happiness", 
+#>     data = happiness_data)
+#> 
+#> Coefficients:
+#> (Intercept)	 income 
+#> 0.2042704 	 0.7138255
+summary(result)
+#>        Estimate T.statistic   P.value    
+#> income  0.71383      38.505 < 2.2e-16 ***
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> R-squared: 0.7493218 	Adjusted R-squared: 0.7488164
+#> F-statistic: 1482.632 	p-value: 3.956245e-151
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-
-```r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
+You can also generate linear regression plots on the result, for example:
 
 <img src="man/figures/README-pressure-1.png" title="plot of chunk pressure" alt="plot of chunk pressure" width="100%" />
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+The red line indicates the fitted linear regression line, whereas black dots represent original data points. For more specific help on each function, type `?function_name` on the RStudio console. 
+
+## Need Help?
+
+If you encounter a problem/bug, please feel free to report on the GitHub page. :) 
