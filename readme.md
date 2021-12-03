@@ -13,7 +13,7 @@ output: github_document
 [![codecov](https://codecov.io/gh/yunzhang77/hw4/branch/master/graph/badge.svg?token=qhHpcXtRu7)](https://codecov.io/gh/yunzhang77/hw4)
 <!-- badges: end -->
 
-The goal of this R package is to perform simple linear regression analysis with a single explanatory variable. This package can calculate intercept and slope for the regression model, perform statistical testing on the regression (T-test and F-test), calculate R-squared and adjusted R-squares, and plot linear regression line. This package also utilize S3 generic method/function to provide user-friendly display of results. 
+The goal of this R package is to perform simple linear regression analysis with a single explanatory variable. This package can calculate intercept and slope of the regression model, perform statistical testing on the regression (T-test and F-test), calculate R-squared and adjusted R-squared values, and plot linear regression line. This package also utilizes S3 generic method/function to provide user-friendly display of results. 
 
 ## Installation
 
@@ -27,15 +27,16 @@ devtools::install_github("yunzhang77/hw4")
 ## Quick Guide
 
 After the package is installed on your local R environment, you can perform simple linear regression analysis by calling:
-  - `linear_regression()`: which will take three arguments - independent variable name, dependent variable name, and data frame
-  - `plot_linear_regression()`: which will take two arguments - result from `linear_regression()` and data frame
+  - `linear_regression()`: which will take three arguments - independent variable name (char), dependent variable name (char), and data (data.frame)
+  - `plot_linear_regression()`: which will take two arguments - result from `linear_regression()` and data
   - `print()` can be called to print user-friendly linear regression result that contains regression coefficients
-  - `summary()` can be called to print statistics of the regression model 
-To better help user to learn this package, two example data sets are included in the package `data_glucose_simple` and `happiness_data`. `data_glucose_simple` can be used to test the functionality of the package and `happiness_data` is a relatively more challening data sets that could be used to validate package performance. See example below to see how to use this package. 
+  - `summary()` can be called to print statistical analysis result of the regression model 
+  
+To better help user to learn how to use this package, two example data sets are included in the package `data_glucose_simple` and `happiness_data`. `data_glucose_simple` can be used to test the functionality of the package and `happiness_data` is a relatively more challening data sets that could be used to validate package performance. See example below on how to use this package. 
 
 ## Example
 
-This is a basic example which shows you how to use this package solve simple linear regression problem:
+This is a basic example which shows you how to use this package to solve simple linear regression problem:
 
 
 ```r
@@ -53,6 +54,7 @@ print(result)
 #> Coefficients:
 #> (Intercept)	 income 
 #> 0.2042704 	 0.7138255
+
 summary(result)
 #>        Estimate T.statistic   P.value    
 #> income  0.71383      38.505 < 2.2e-16 ***
@@ -63,11 +65,13 @@ summary(result)
 #> F-statistic: 1482.632 	p-value: 3.956245e-151
 ```
 
-You can also generate linear regression plots on the result, for example:
+You can also generate linear regression plots using `plot_linear_regression()`, for example:
 
 <img src="man/figures/README-pressure-1.png" title="plot of chunk pressure" alt="plot of chunk pressure" width="100%" />
 
-The red line indicates the fitted linear regression line, whereas black dots represent original data points. For more specific help on each function, type `?function_name` on the RStudio console. 
+The red line indicates the fitted linear regression line, whereas black dots represent original data points. 
+
+For more specific help on each function, type `?function_name` on the RStudio console. 
 
 ## Need Help?
 
