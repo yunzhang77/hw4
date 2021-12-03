@@ -1,7 +1,7 @@
 #' Calculate simple linear regression
 #'
 #' This function takes three parameters and fits simple linear regression model.
-#' The function asks for independent variable name (string), dependent variable name (string), and a data frame
+#' The function asks for independent variable name (string), dependent variable name (string), and a dataset
 #' (data.frame) that contains both independent and dependent variables. If either variable name is not found in
 #' the data frame, this function will return an error message. Otherwise, it will compute slope and intercept,
 #' calculate standard error, R-squared, and adjusted R-squared values, and perform t-test and f-test on the
@@ -105,13 +105,13 @@ fit_linear_regression <- function(x_name, y_name, data){
 #'
 #' This function uses result acquired by calling linear_regression and original data
 #' to plot both original data points and linear regression line on the same plot.
-#' Original data points will be labeled as black dots, whereas regression line will
-#' be red.
+#' Red line indicates fitted linear regression line and black dots represent original
+#' data points.
 #'
 #' @usage plot_linear_regression(result, data)
 #'
-#' @param result result from linear_regression
-#' @param data original data frame used in linear_regression
+#' @param result result from linear_regression()
+#' @param data original dataset used in linear_regression()
 #'
 #' @examples plot_linear_regression(linear_regression("income", "happiness", happiness_data), happiness_data)
 #' @examples plot_linear_regression(linear_regression("age", "glucose.level", data_glucose_simple), data_glucose_simple)
@@ -139,8 +139,9 @@ plot_linear_regression <- function(result, data){
 
 ################ S3 methods for package ################
 # Note: three functions listed below are modified S3 functions to generate user-
-# friendly results. Hence, help page was not provided. Because all three functions
-# use print() and summary() to generate results.
+# friendly results. Because all three functions use print() and summary() to
+# generate results, separate help page was not provided (but was mentioned in readme and
+# vignettes).
 
 #' @export
 print.lm_result <- function(x, ...){

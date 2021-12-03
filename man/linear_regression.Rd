@@ -15,7 +15,7 @@ linear_regression(x_name, y_name, data)
 }
 \description{
 This function takes three parameters and fits simple linear regression model.
-The function asks for independent variable name (string), dependent variable name (string), and a data frame
+The function asks for independent variable name (string), dependent variable name (string), and a dataset
 (data.frame) that contains both independent and dependent variables. If either variable name is not found in
 the data frame, this function will return an error message. Otherwise, it will compute slope and intercept,
 calculate standard error, R-squared, and adjusted R-squared values, and perform t-test and f-test on the

@@ -7,15 +7,15 @@
 plot_linear_regression(result, data)
 }
 \arguments{
-\item{result}{result from linear_regression}
+\item{result}{result from linear_regression()}
 
-\item{data}{original data frame used in linear_regression}
+\item{data}{original dataset used in linear_regression()}
 }
 \description{
 This function uses result acquired by calling linear_regression and original data
 to plot both original data points and linear regression line on the same plot.
-Original data points will be labeled as black dots, whereas regression line will
-be red.
+Red line indicates fitted linear regression line and black dots represent original
+data points.
 }
 \examples{
 plot_linear_regression(linear_regression("income", "happiness", happiness_data), happiness_data)
